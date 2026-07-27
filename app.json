@@ -24,7 +24,7 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
       ],
-      "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+      "googleMapsApiKey": "AIzaSyCmNM-KChGE3sLn5n_kNqJOITRj5rbOrgA"
     },
     "ios": {
       "bundleIdentifier": "com.bluewave.mundawise",
