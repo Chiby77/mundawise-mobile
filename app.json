@@ -5,18 +5,17 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "mundawise",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mundawise-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/mundawise-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#1B4332"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/mundawise-icon.png",
+        "backgroundColor": "#1B4332"
       },
       "package": "com.bluewave.mundawise",
       "permissions": [
@@ -36,7 +35,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/mundawise-icon.png"
     },
     "plugins": [
       "expo-router",
