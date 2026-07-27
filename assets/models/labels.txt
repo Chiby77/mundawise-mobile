@@ -1,0 +1,4 @@
+0 Healthy
+1 Gray_Leaf_Spot
+2 Common_Rust
+3 Blight

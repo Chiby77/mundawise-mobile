@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "MundaWise",
+    "slug": "mundawise",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "mundawise",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1B4332"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.bluewave.mundawise",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+    },
+    "ios": {
+      "bundleIdentifier": "com.bluewave.mundawise",
+      "infoPlist": {
+        "NSCameraUsageDescription": "MundaWise needs camera access to photograph crop leaves for AI diagnosis.",
+        "NSPhotoLibraryUsageDescription": "MundaWise needs gallery access to import crop photos for diagnosis.",
+        "NSLocationWhenInUseUsageDescription": "MundaWise uses your location to find the nearest agro-dealers."
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "MundaWise needs camera access to photograph crop leaves for AI diagnosis."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "MundaWise uses your location to find the nearest agro-dealer.",
+          "locationWhenInUsePermission": "MundaWise uses your location to find the nearest agro-dealer."
+        }
+      ],
+      [
+        "react-native-fast-tflite",
+        {
+          "enableCoreMLDelegate": false,
+          "enableGpuDelegate": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
