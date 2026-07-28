@@ -3,8 +3,8 @@
  * Typed fetch wrapper. Update BACKEND_URL after deploying to Render/Railway.
  */
 
-export const BACKEND_URL = 'https://your-mundawise-backend.onrender.com'; // ← update after deploy
-const API_KEY = 'replace_with_your_api_key';                               // ← match backend .env
+export const BACKEND_URL = 'https://mundawise-backend-production.up.railway.app';
+const API_KEY = '5b3074c8088329c3aee2fa7d677c6e311940a16cf7f25dc44bd7ab067a0c6160';
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BACKEND_URL}${path}`, {

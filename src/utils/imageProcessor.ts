@@ -1,4 +1,5 @@
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as jpeg from 'jpeg-js';
 
 const MODEL_SIZE = 224;
 const PIXEL_COUNT = MODEL_SIZE * MODEL_SIZE;
@@ -17,7 +18,6 @@ export async function imageUriToFloat32(imageUri: string): Promise<Float32Array>
   for (let i = 0; i < binaryStr.length; i++) jpegBytes[i] = binaryStr.charCodeAt(i);
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const jpeg = require('jpeg-js') as typeof import('jpeg-js');
   const { data: rgba } = jpeg.decode(jpegBytes, { useTArray: true });
 
   if (rgba.length !== PIXEL_COUNT * 4) throw new Error(`Unexpected pixel buffer: expected ${PIXEL_COUNT * 4}, got ${rgba.length}`);
