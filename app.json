@@ -22,7 +22,8 @@
         "android.permission.CAMERA",
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION"
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECORD_AUDIO"
       ],
       "googleMapsApiKey": "AIzaSyCmNM-KChGE3sLn5n_kNqJOITRj5rbOrgA"
     },
@@ -62,6 +63,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c5899e3f-9890-4f59-af9b-9620af51ab6c"
+      }
     }
   }
 }

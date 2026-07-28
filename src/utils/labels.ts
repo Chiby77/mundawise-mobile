@@ -13,6 +13,32 @@ export interface DiseaseInfo {
 
 const DISEASE_INFO: Record<string, DiseaseInfo> = {
 
+  // ── YOUR TRAINED MODEL (4-class maize model) ──────────────────────────────
+
+  'Healthy': {
+    name: 'Healthy Maize', nameShona: 'Zvirimwa Zvine Utano', severity: 'Healthy', color: '#16A34A',
+    treatment: 'No disease detected. Continue scouting every 7–10 days and maintain balanced fertilisation.',
+    treatmentShona: 'Chirwere hachiwanike. Ramba uchitarisisa minda mazuva 7–10.',
+  },
+  'Gray_Leaf_Spot': {
+    name: 'Gray Leaf Spot', nameShona: 'Chirwere cheMashizha — Nhema', severity: 'High', color: '#DC2626',
+    treatment: 'Apply Mancozeb 80% WP at 2.0–2.5 kg/ha. Remove infected lower leaves. Improve field drainage. Re-apply after 14 days.',
+    treatmentShona: 'Shandisa Mancozeb 80% WP pa 2.0–2.5 kg/ha. Bvisa mashizha ane chirwere. Dzokera mushonga mushure memazuva 14.',
+    chemical: 'Mancozeb 80% WP', dosage: '2.0–2.5 kg/ha', preventionTip: 'Use certified disease-resistant seed. Rotate with legumes.',
+  },
+  'Common_Rust': {
+    name: 'Common Rust', nameShona: 'Chirwere cheRusiti', severity: 'Medium', color: '#D97706',
+    treatment: 'Apply Propiconazole 25% EC at 0.5 L/ha. Scout from early tasseling. Switch to rust-tolerant hybrid next season.',
+    treatmentShona: 'Shandisa Propiconazole 25% EC pa 0.5 L/ha. Tarisisa minda panguva yekura kwezvirimwa.',
+    chemical: 'Propiconazole 25% EC', dosage: '0.5 L/ha', preventionTip: 'Plant early to avoid peak rust weather.',
+  },
+  'Blight': {
+    name: 'Northern Leaf Blight', nameShona: 'Chirwere cheMashizha — Kuputika', severity: 'High', color: '#DC2626',
+    treatment: 'Apply Azoxystrobin 23% SC at 0.8–1.0 L/ha at first signs. Rotate with soybean or groundnut next season.',
+    treatmentShona: 'Shandisa Azoxystrobin 23% SC pa 0.8–1.0 L/ha paunowe zviratidzo zvekutanga.',
+    chemical: 'Azoxystrobin 23% SC', dosage: '0.8–1.0 L/ha', preventionTip: 'Maintain balanced N-P-K fertilisation.',
+  },
+
   // ── APPLE ────────────────────────────────────────────────────────────────
 
   'Apple___Apple_scab': {

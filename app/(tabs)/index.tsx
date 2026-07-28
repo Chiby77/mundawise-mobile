@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import NetInfo from '@react-native-community/netinfo';
+import { Ionicons } from '@expo/vector-icons';
 
 import { loadModel, classifyImage, isModelReady } from '../../src/utils/classifier';
 import { saveScan, syncPendingScans } from '../../src/utils/cache';
@@ -73,7 +74,7 @@ export default function DiagnoseScreen() {
     return (
       <SafeAreaView style={styles.permRoot}>
         <View style={styles.permCard}>
-          <Text style={styles.permEmoji}>📷</Text>
+          <Ionicons name="camera" size={56} color={COLORS.primary} style={{ marginBottom: 16 }} />
           <Text style={styles.permTitle}>Camera Access Needed</Text>
           <Text style={styles.permDesc}>MundaWise needs your camera to photograph crop leaves for diagnosis.</Text>
           <TouchableOpacity style={styles.permBtn} onPress={requestPermission}>
@@ -89,7 +90,7 @@ export default function DiagnoseScreen() {
     return (
       <SafeAreaView style={[styles.permRoot, { backgroundColor: COLORS.primary }]}>
         <View style={styles.loadingBox}>
-          <Text style={styles.loadEmoji}>🔬</Text>
+          <Ionicons name="search" size={48} color={COLORS.accent} style={{ marginBottom: 24 }} />
           <ActivityIndicator size="large" color={COLORS.accent} style={{ marginBottom: 20 }} />
           <Text style={styles.loadTitle}>Analysing your crop...</Text>
           <Text style={styles.loadSub}>On-device AI · No data sent</Text>
@@ -109,10 +110,12 @@ export default function DiagnoseScreen() {
             <Text style={styles.previewBadgeText}>Is the affected area clearly visible?</Text>
           </View>
           <TouchableOpacity style={styles.diagnoseBtn} onPress={runDiagnosis}>
-            <Text style={styles.diagnoseBtnText}>🔬  Diagnose Now</Text>
+            <Ionicons name="search" size={18} color={COLORS.primary} />
+            <Text style={styles.diagnoseBtnText}>  Diagnose Now</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.retakeBtn} onPress={retake}>
-            <Text style={styles.retakeBtnText}>↩  Retake Photo</Text>
+            <Ionicons name="arrow-undo" size={16} color="#fff" />
+            <Text style={styles.retakeBtnText}>  Retake Photo</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -127,7 +130,7 @@ export default function DiagnoseScreen() {
         {/* Top header */}
         <View style={styles.topBar}>
           <View>
-            <Text style={styles.appName}>🌱 MundaWise</Text>
+            <Text style={styles.appName}>MundaWise</Text>
             <Text style={styles.appSub}>AI Crop Diagnostic</Text>
           </View>
           <View style={[styles.aiBadge, { backgroundColor: modelReady ? 'rgba(82,183,136,0.9)' : 'rgba(255,255,255,0.25)' }]}>
@@ -139,7 +142,7 @@ export default function DiagnoseScreen() {
         {/* Target frame */}
         <View style={styles.frameArea}>
           <View style={styles.frame}>
-            {['tl','tr','bl','br'].map((pos) => (
+            {(['tl','tr','bl','br'] as const).map((pos) => (
               <View key={pos} style={[styles.corner,
                 pos === 'tl' && styles.ctl, pos === 'tr' && styles.ctr,
                 pos === 'bl' && styles.cbl, pos === 'br' && styles.cbr,
@@ -151,13 +154,16 @@ export default function DiagnoseScreen() {
 
         {/* Tip strip */}
         <View style={styles.tipStrip}>
-          <Text style={styles.tipText}>💡 Tip: Ensure good lighting · Capture one leaf at a time</Text>
+          <Ionicons name="bulb-outline" size={13} color="rgba(255,255,255,0.7)" />
+          <Text style={styles.tipText}>  Tip: Ensure good lighting · Capture one leaf at a time</Text>
         </View>
 
         {/* Controls */}
         <View style={styles.controls}>
           <TouchableOpacity style={styles.sideBtn} onPress={pickFromGallery}>
-            <View style={styles.sideBtnInner}><Text style={styles.sideBtnIcon}>🖼️</Text></View>
+            <View style={styles.sideBtnInner}>
+              <Ionicons name="images-outline" size={24} color="#fff" />
+            </View>
             <Text style={styles.sideBtnLabel}>Gallery</Text>
           </TouchableOpacity>
 
@@ -178,25 +184,21 @@ export default function DiagnoseScreen() {
   );
 }
 
-const C = 28; // corner size
+const C = 28;
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#000' },
   permRoot: { flex: 1, backgroundColor: COLORS.background, justifyContent: 'center', alignItems: 'center' },
   permCard: { ...SHADOW.lg, backgroundColor: COLORS.surface, borderRadius: RADIUS.xl, padding: 32, margin: 24, alignItems: 'center' },
-  permEmoji: { fontSize: 56, marginBottom: 16 },
   permTitle: { fontSize: 22, fontWeight: '800', color: COLORS.text, marginBottom: 10 },
   permDesc: { fontSize: 14, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 28 },
   permBtn: { backgroundColor: COLORS.primary, paddingHorizontal: 32, paddingVertical: 15, borderRadius: RADIUS.lg },
   permBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 
-  // Loading
   loadingBox: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 },
-  loadEmoji: { fontSize: 48, marginBottom: 24 },
   loadTitle: { fontSize: 22, fontWeight: '800', color: '#fff', marginBottom: 8 },
   loadSub: { fontSize: 13, color: COLORS.accentLight, marginBottom: 28 },
   loadThumb: { width: 120, height: 120, borderRadius: 16, borderWidth: 2, borderColor: COLORS.accent },
 
-  // Preview
   previewOverlay: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
     padding: 24, paddingBottom: 48,
@@ -206,12 +208,11 @@ const styles = StyleSheet.create({
   },
   previewBadge: { alignItems: 'center', marginBottom: 8 },
   previewBadgeText: { color: 'rgba(255,255,255,0.8)', fontSize: 14, fontWeight: '500' },
-  diagnoseBtn: { backgroundColor: COLORS.accent, borderRadius: RADIUS.lg, paddingVertical: 17, alignItems: 'center' },
+  diagnoseBtn: { flexDirection: 'row', backgroundColor: COLORS.accent, borderRadius: RADIUS.lg, paddingVertical: 17, alignItems: 'center', justifyContent: 'center' },
   diagnoseBtnText: { color: COLORS.primary, fontSize: 16, fontWeight: '800' },
-  retakeBtn: { borderRadius: RADIUS.lg, paddingVertical: 15, alignItems: 'center', borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.35)' },
+  retakeBtn: { flexDirection: 'row', borderRadius: RADIUS.lg, paddingVertical: 15, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.35)' },
   retakeBtnText: { color: '#fff', fontSize: 15, fontWeight: '600' },
 
-  // Camera overlay
   topBar: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8,
@@ -231,13 +232,12 @@ const styles = StyleSheet.create({
   cbr: { bottom: 0, right: 0, borderBottomWidth: 3, borderRightWidth: 3, borderBottomRightRadius: 4 },
   frameHint: { color: 'rgba(255,255,255,0.75)', fontSize: 13, marginTop: 16, fontWeight: '500' },
 
-  tipStrip: { backgroundColor: 'rgba(0,0,0,0.5)', paddingVertical: 9, paddingHorizontal: 20 },
-  tipText: { color: 'rgba(255,255,255,0.7)', fontSize: 12, textAlign: 'center' },
+  tipStrip: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)', paddingVertical: 9, paddingHorizontal: 20 },
+  tipText: { color: 'rgba(255,255,255,0.7)', fontSize: 12 },
 
   controls: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 28, paddingHorizontal: 20 },
   sideBtn: { width: 68, alignItems: 'center' },
   sideBtnInner: { width: 52, height: 52, borderRadius: 26, backgroundColor: 'rgba(255,255,255,0.2)', justifyContent: 'center', alignItems: 'center' },
-  sideBtnIcon: { fontSize: 24 },
   sideBtnLabel: { color: 'rgba(255,255,255,0.8)', fontSize: 11, marginTop: 5, fontWeight: '600' },
   shutter: { alignItems: 'center', justifyContent: 'center' },
   shutterDisabled: { opacity: 0.35 },

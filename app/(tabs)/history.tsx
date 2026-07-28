@@ -4,6 +4,7 @@ import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { getScans, CachedScan, clearAllScans } from '../../src/utils/cache';
 import { COLORS, RADIUS, SEVERITY_CONFIG, SHADOW } from '../../src/theme';
 
@@ -51,9 +52,15 @@ export default function HistoryScreen() {
               {date.toLocaleDateString('en-ZW', { day: 'numeric', month: 'short' })} · {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </Text>
             <Text style={styles.metaConf}>{pct}% confidence</Text>
-            {!item.synced && <View style={styles.unsyncBadge}><Text style={styles.unsyncText}>⏳ Pending sync</Text></View>}
+            {!item.synced && (
+              <View style={styles.unsyncBadge}>
+                <Ionicons name="time-outline" size={10} color={COLORS.warning} />
+                <Text style={styles.unsyncText}> Pending sync</Text>
+              </View>
+            )}
           </View>
         </View>
+        <Ionicons name="chevron-forward" size={16} color={COLORS.textMuted} />
       </TouchableOpacity>
     );
   };
@@ -62,9 +69,9 @@ export default function HistoryScreen() {
     <SafeAreaView style={styles.root}>
       {/* Stats bar */}
       <View style={styles.statsBar}>
-        <StatChip emoji="🔬" value={scans.length} label="Total Scans" />
-        <StatChip emoji="⚠️" value={scans.filter(s => s.result?.info?.severity !== 'Healthy').length} label="Diseases" />
-        <StatChip emoji="✅" value={scans.filter(s => s.result?.info?.severity === 'Healthy').length} label="Healthy" />
+        <StatChip icon="search" value={scans.length} label="Total Scans" />
+        <StatChip icon="warning" value={scans.filter(s => s.result?.info?.severity !== 'Healthy').length} label="Diseases" />
+        <StatChip icon="checkmark-circle" value={scans.filter(s => s.result?.info?.severity === 'Healthy').length} label="Healthy" />
       </View>
 
       <FlatList
@@ -75,7 +82,7 @@ export default function HistoryScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.accent} />}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyEmoji}>🌿</Text>
+            <Ionicons name="leaf-outline" size={56} color={COLORS.textMuted} style={{ marginBottom: 16 }} />
             <Text style={styles.emptyTitle}>No scans yet</Text>
             <Text style={styles.emptyDesc}>Go to the Diagnose tab and take your first crop scan.</Text>
           </View>
@@ -83,7 +90,8 @@ export default function HistoryScreen() {
         ListFooterComponent={
           scans.length > 0 ? (
             <TouchableOpacity style={styles.clearBtn} onPress={async () => { await clearAllScans(); load(); }}>
-              <Text style={styles.clearText}>🗑  Clear all history</Text>
+              <Ionicons name="trash-outline" size={15} color={COLORS.danger} />
+              <Text style={styles.clearText}>  Clear all history</Text>
             </TouchableOpacity>
           ) : null
         }
@@ -92,10 +100,10 @@ export default function HistoryScreen() {
   );
 }
 
-function StatChip({ emoji, value, label }: { emoji: string; value: number; label: string }) {
+function StatChip({ icon, value, label }: { icon: React.ComponentProps<typeof Ionicons>['name']; value: number; label: string }) {
   return (
     <View style={styles.chip}>
-      <Text style={styles.chipEmoji}>{emoji}</Text>
+      <Ionicons name={icon} size={20} color="#fff" style={{ marginBottom: 2 }} />
       <Text style={styles.chipValue}>{value}</Text>
       <Text style={styles.chipLabel}>{label}</Text>
     </View>
@@ -106,7 +114,6 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: COLORS.background },
   statsBar: { flexDirection: 'row', backgroundColor: COLORS.primary, paddingVertical: 16, paddingHorizontal: 12, gap: 8 },
   chip: { flex: 1, alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: RADIUS.md, paddingVertical: 10 },
-  chipEmoji: { fontSize: 20, marginBottom: 2 },
   chipValue: { fontSize: 22, fontWeight: '800', color: '#fff' },
   chipLabel: { fontSize: 10, color: 'rgba(255,255,255,0.7)', fontWeight: '600', marginTop: 1 },
 
@@ -122,14 +129,13 @@ const styles = StyleSheet.create({
   cardMeta: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
   metaText: { fontSize: 11, color: COLORS.textMuted },
   metaConf: { fontSize: 11, color: COLORS.textSecondary, fontWeight: '600' },
-  unsyncBadge: { backgroundColor: '#FFF7ED', paddingHorizontal: 6, paddingVertical: 2, borderRadius: RADIUS.full },
+  unsyncBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF7ED', paddingHorizontal: 6, paddingVertical: 2, borderRadius: RADIUS.full },
   unsyncText: { fontSize: 10, color: COLORS.warning },
 
   empty: { alignItems: 'center', paddingTop: 80, paddingHorizontal: 32 },
-  emptyEmoji: { fontSize: 56, marginBottom: 16 },
   emptyTitle: { fontSize: 20, fontWeight: '800', color: COLORS.text, marginBottom: 8 },
   emptyDesc: { fontSize: 14, color: COLORS.textSecondary, textAlign: 'center', lineHeight: 22 },
 
-  clearBtn: { alignItems: 'center', padding: 16, marginTop: 8 },
+  clearBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 16, marginTop: 8 },
   clearText: { fontSize: 13, color: COLORS.danger },
 });

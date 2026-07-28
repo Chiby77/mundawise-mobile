@@ -1,18 +1,16 @@
-/**
- * MundaWise — Results Screen
- * Receives diagnosis result via router params, shows full disease card.
- */
-
 import React, { useState } from 'react';
 import {
   LayoutAnimation, Platform, UIManager, SafeAreaView, ScrollView,
   StyleSheet, Text, TouchableOpacity, View, Image,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, RADIUS, SEVERITY_CONFIG, SHADOW } from '../src/theme';
 import type { ClassificationResult } from '../src/utils/classifier';
 
 if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental?.(true);
+
+type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
 
 export default function ResultsScreen() {
   const { resultJson, imageUri } = useLocalSearchParams<{ resultJson: string; imageUri: string }>();
@@ -46,7 +44,8 @@ export default function ResultsScreen() {
               </Text>
               {inferenceMs && (
                 <View style={styles.speedBadge}>
-                  <Text style={styles.speedText}>⚡ {inferenceMs}ms</Text>
+                  <Ionicons name="flash" size={11} color={COLORS.primary} />
+                  <Text style={styles.speedText}> {inferenceMs}ms</Text>
                 </View>
               )}
             </View>
@@ -88,7 +87,14 @@ export default function ResultsScreen() {
 
           {/* Treatment */}
           <View style={styles.treatBox}>
-            <Text style={styles.treatTitle}>{isHealthy ? '✅ Crop Status' : '💊 Treatment Advice'}</Text>
+            <View style={styles.treatTitleRow}>
+              <Ionicons
+                name={isHealthy ? 'checkmark-circle' : 'medkit'}
+                size={15}
+                color={isHealthy ? COLORS.success ?? '#16A34A' : COLORS.primary}
+              />
+              <Text style={styles.treatTitle}> {isHealthy ? 'Crop Status' : 'Treatment Advice'}</Text>
+            </View>
             <Text style={styles.treatText}>{lang === 'sn' ? info.treatmentShona : info.treatment}</Text>
 
             {info.chemical && (
@@ -106,8 +112,8 @@ export default function ResultsScreen() {
 
             {info.preventionTip && (
               <View style={styles.tipRow}>
-                <Text style={styles.tipIcon}>🛡</Text>
-                <Text style={styles.tipText}>{info.preventionTip}</Text>
+                <Ionicons name="shield-checkmark-outline" size={14} color={COLORS.textSecondary} style={{ marginTop: 1 }} />
+                <Text style={styles.tipText}> {info.preventionTip}</Text>
               </View>
             )}
           </View>
@@ -116,7 +122,8 @@ export default function ResultsScreen() {
           {topResults?.length > 1 && (
             <>
               <TouchableOpacity style={styles.expandRow} onPress={toggle}>
-                <Text style={styles.expandLabel}>{expanded ? '▲ Hide' : '▼ Show'} other possibilities</Text>
+                <Ionicons name={expanded ? 'chevron-up' : 'chevron-down'} size={14} color={COLORS.textMuted} />
+                <Text style={styles.expandLabel}> {expanded ? 'Hide' : 'Show'} other possibilities</Text>
               </TouchableOpacity>
               {expanded && (
                 <View style={styles.altList}>
@@ -141,18 +148,16 @@ export default function ResultsScreen() {
               style={styles.primaryBtn}
               onPress={() => router.push({
                 pathname: '/dealers',
-                params: {
-                  disease: result.label,
-                  chemical: info.chemical ?? '',
-                  confidence: String(confidence),
-                },
+                params: { disease: result.label, chemical: info.chemical ?? '', confidence: String(confidence) },
               })}
             >
-              <Text style={styles.primaryBtnText}>📍  Find Nearest Dealer</Text>
+              <Ionicons name="location" size={17} color="#fff" />
+              <Text style={styles.primaryBtnText}>  Find Nearest Dealer</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity style={styles.secondaryBtn} onPress={() => router.back()}>
-            <Text style={styles.secondaryBtnText}>📸  Scan Another Crop</Text>
+            <Ionicons name="camera" size={17} color={COLORS.text} />
+            <Text style={styles.secondaryBtnText}>  Scan Another Crop</Text>
           </TouchableOpacity>
         </View>
 
@@ -170,7 +175,7 @@ const styles = StyleSheet.create({
   imageMeta: { flex: 1 },
   imageMetaLabel: { fontSize: 14, fontWeight: '700', color: COLORS.text },
   imageMetaTime: { fontSize: 12, color: COLORS.textMuted, marginTop: 2 },
-  speedBadge: { marginTop: 6, backgroundColor: COLORS.accentLight, paddingHorizontal: 8, paddingVertical: 3, borderRadius: RADIUS.full, alignSelf: 'flex-start' },
+  speedBadge: { flexDirection: 'row', alignItems: 'center', marginTop: 6, backgroundColor: COLORS.accentLight, paddingHorizontal: 8, paddingVertical: 3, borderRadius: RADIUS.full, alignSelf: 'flex-start' },
   speedText: { fontSize: 11, color: COLORS.primary, fontWeight: '700' },
 
   card: { backgroundColor: COLORS.surface, borderRadius: RADIUS.xl, padding: 20, marginBottom: 16 },
@@ -193,6 +198,7 @@ const styles = StyleSheet.create({
   langActiveText: { color: COLORS.primary },
 
   treatBox: { backgroundColor: COLORS.surfaceAlt, borderRadius: RADIUS.md, padding: 14, gap: 10 },
+  treatTitleRow: { flexDirection: 'row', alignItems: 'center' },
   treatTitle: { fontSize: 13, fontWeight: '700', color: COLORS.textSecondary },
   treatText: { fontSize: 14, color: COLORS.text, lineHeight: 22 },
   chemBox: { backgroundColor: '#EEF2FF', borderRadius: RADIUS.md, padding: 12, gap: 4 },
@@ -201,11 +207,10 @@ const styles = StyleSheet.create({
   dosageRow: { flexDirection: 'row', gap: 8, alignItems: 'center', marginTop: 2 },
   dosageLabel: { fontSize: 11, color: '#5C6BC0' },
   dosageValue: { fontSize: 13, color: '#3949AB', fontWeight: '700' },
-  tipRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
-  tipIcon: { fontSize: 14, marginTop: 1 },
+  tipRow: { flexDirection: 'row', alignItems: 'flex-start' },
   tipText: { flex: 1, fontSize: 12, color: COLORS.textSecondary, lineHeight: 18 },
 
-  expandRow: { alignItems: 'center', paddingVertical: 10 },
+  expandRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 10 },
   expandLabel: { fontSize: 12, color: COLORS.textMuted },
   altList: { gap: 4 },
   altRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5, borderBottomWidth: 1, borderBottomColor: COLORS.divider },
@@ -213,8 +218,8 @@ const styles = StyleSheet.create({
   altPct: { fontSize: 12, color: COLORS.textMuted },
 
   actions: { gap: 10 },
-  primaryBtn: { backgroundColor: COLORS.primary, borderRadius: RADIUS.lg, paddingVertical: 16, alignItems: 'center', ...SHADOW.sm },
+  primaryBtn: { flexDirection: 'row', backgroundColor: COLORS.primary, borderRadius: RADIUS.lg, paddingVertical: 16, alignItems: 'center', justifyContent: 'center', ...SHADOW.sm },
   primaryBtnText: { color: '#fff', fontSize: 15, fontWeight: '800' },
-  secondaryBtn: { backgroundColor: COLORS.surface, borderRadius: RADIUS.lg, paddingVertical: 15, alignItems: 'center', borderWidth: 1.5, borderColor: COLORS.border },
+  secondaryBtn: { flexDirection: 'row', backgroundColor: COLORS.surface, borderRadius: RADIUS.lg, paddingVertical: 15, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: COLORS.border },
   secondaryBtnText: { color: COLORS.text, fontSize: 14, fontWeight: '700' },
 });

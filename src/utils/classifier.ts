@@ -38,7 +38,7 @@ async function loadLabels(): Promise<string[]> {
   if (labels.length > 0) return labels;
 
   try {
-    const [asset] = await Asset.loadAsync(require('../../assets/labels.txt'));
+    const [asset] = await Asset.loadAsync(require('../../assets/models/labels.txt'));
     const content = await FileSystem.readAsStringAsync(asset.localUri!);
     labels = content
       .trim()
@@ -70,7 +70,7 @@ export async function loadModel(): Promise<void> {
       await Promise.all([
         (async () => {
           model = await loadTensorflowModel(
-            require('../../assets/model.tflite') // YOUR trained model
+            require('../../assets/models/model.tflite') // YOUR trained model
           );
         })(),
         loadLabels(),

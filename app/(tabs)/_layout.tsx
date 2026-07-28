@@ -1,11 +1,28 @@
 import { Tabs } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../../src/theme';
 
-function TabIcon({ focused, emoji, label }: { focused: boolean; emoji: string; label: string }) {
+type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
+
+function TabIcon({
+  focused,
+  icon,
+  iconOutline,
+  label,
+}: {
+  focused: boolean;
+  icon: IoniconsName;
+  iconOutline: IoniconsName;
+  label: string;
+}) {
   return (
     <View style={[styles.tabIcon, focused && styles.tabIconActive]}>
-      <Text style={styles.emoji}>{emoji}</Text>
+      <Ionicons
+        name={focused ? icon : iconOutline}
+        size={22}
+        color={focused ? COLORS.accent : COLORS.textMuted}
+      />
       <Text style={[styles.label, { color: focused ? COLORS.accent : COLORS.textMuted }]}>
         {label}
       </Text>
@@ -27,29 +44,37 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: '🌱 MundaWise',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} emoji="🌿" label="Diagnose" />,
+          title: 'MundaWise',
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon="leaf" iconOutline="leaf-outline" label="Diagnose" />
+          ),
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
           title: 'Scan History',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} emoji="📋" label="History" />,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon="time" iconOutline="time-outline" label="History" />
+          ),
         }}
       />
       <Tabs.Screen
         name="alerts"
         options={{
           title: 'Outbreak Alerts',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} emoji="⚠️" label="Alerts" />,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon="warning" iconOutline="warning-outline" label="Alerts" />
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} emoji="⚙️" label="Settings" />,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon="settings" iconOutline="settings-outline" label="Settings" />
+          ),
         }}
       />
     </Tabs>
@@ -77,6 +102,5 @@ const styles = StyleSheet.create({
   tabIconActive: {
     backgroundColor: 'rgba(82, 183, 136, 0.15)',
   },
-  emoji: { fontSize: 22 },
   label: { fontSize: 10, fontWeight: '600', marginTop: 3 },
 });
