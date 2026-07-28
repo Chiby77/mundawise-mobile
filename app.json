@@ -2,7 +2,7 @@
   "expo": {
     "name": "MundaWise",
     "slug": "mundawise",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "scheme": "mundawise",
     "icon": "./assets/mundawise-icon.png",
@@ -13,6 +13,7 @@
       "backgroundColor": "#1B4332"
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/mundawise-icon.png",
         "backgroundColor": "#1B4332"
@@ -25,7 +26,11 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.RECORD_AUDIO"
       ],
-      "googleMapsApiKey": "AIzaSyCmNM-KChGE3sLn5n_kNqJOITRj5rbOrgA"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCmNM-KChGE3sLn5n_kNqJOITRj5rbOrgA"
+        }
+      }
     },
     "ios": {
       "bundleIdentifier": "com.bluewave.mundawise",
